@@ -32,6 +32,8 @@ def download_irep(filepath):
         with zipfile.ZipFile('./' + str(i) + '.zip', "r") as zip_ref:
             zip_ref.extractall("./data/" + str(i) + '/')
 
+        os.remove('./' + str(i) + '.zip')
+
     p1 = Proj(init='epsg:4326')
     p2 = Proj(init='epsg:27572')
 
@@ -105,6 +107,7 @@ def download_irep(filepath):
         )
     ]
     df_metro.to_csv(filepath, index=False)
+    shutil.rmtree('./data', ignore_errors=True)
 
 
 def add_regions(df, x, y, add=["regions", "departements"]):
