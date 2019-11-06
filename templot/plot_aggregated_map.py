@@ -1,5 +1,5 @@
 """
-Simple plotting function.
+Plot Aggregated Map.
 """
 
 import numpy as np
