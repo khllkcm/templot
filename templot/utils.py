@@ -6,6 +6,7 @@ import zipfile
 import os
 from pyproj import Proj, transform
 import pkg_resources
+import shutil
 
 DATA_PATH = pkg_resources.resource_filename('templot', 'data')
 
