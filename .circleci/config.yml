@@ -70,3 +70,6 @@ jobs:
       - store_artifacts:
           path: dist/html/example_polarbar.html
           destination: dist/html/html/example_polarbar.html
+      - store_artifacts:
+          path: dist/html
+          destination: dist/html
