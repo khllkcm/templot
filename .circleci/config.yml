@@ -65,5 +65,8 @@ jobs:
             sphinx-build -M html doc dist/html
 
       - store_artifacts:
-          path: dist/html
-          destination: dist
+          path: dist/html/example_agrmap.html
+          destination: dist/html/html/example_agrmap.html
+      - store_artifacts:
+          path: dist/html/example_polarbar.html
+          destination: dist/html/html/example_polarbar.html
