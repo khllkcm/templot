@@ -22,10 +22,10 @@ map = plot_aggregated_map(df=df)
 # visualize the html results in sphinx gallery
 tmp_dir = os.path.join('..', 'dist', 'html')
 if os.path.exists(tmp_dir):
-    with open(os.path.join(tmp_dir, 'out.html'), 'wt') as fh:
+    with open(os.path.join(tmp_dir, 'example_agrmap.html'), 'wt') as fh:
         fh.write(map.get_root().render())
 
 ####################################
 # .. raw:: html
 #
-#     <iframe src="../out.html" height="600px" width="100%"></iframe>
+#     <iframe src="../example_agrmap.html" height="600px" width="100%"></iframe>
