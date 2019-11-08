@@ -4,3 +4,4 @@ folium
 numpy
 pandas
 pyproj
+plotly
