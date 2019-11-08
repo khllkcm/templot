@@ -119,7 +119,7 @@ def download_irep(filepath):
     shutil.rmtree('./data', ignore_errors=True)
 
 
-def add_regions(df, x, y, add=["regions", "departements"]):
+def add_regions(df, x, y, add=["regions"]):
 
     """
     Adds regions, departments and/or communes to a dataframe.
@@ -127,7 +127,7 @@ def add_regions(df, x, y, add=["regions", "departements"]):
     :param df: a DataFrame containing at least two coordinate columns.
     :param x: name of the column containing longitudes.
     :param y: name of the columns containing lattidudes.
-    :param add: list of the columns to add. Possible values are "regions", "deparements" and "communes". Defaults to ["regions", "departements"].
+    :param add: list of the columns to add. Possible values are "regions", "deparements" and "communes". Defaults to ["regions"].
     :return: the original DataFrame with the added columns.
    """
 
