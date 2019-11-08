@@ -7,6 +7,7 @@ templot: Python package for visualizing time evolution
 
     plots
     examples/index
+    utils
 
 *Indices and tables*
 
