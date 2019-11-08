@@ -65,5 +65,5 @@ jobs:
             sphinx-build -M html doc dist/html
 
       - store_artifacts:
-          path: dist
+          path: dist/html
           destination: dist
