@@ -12,7 +12,15 @@ DATA_PATH = pkg_resources.resource_filename('templot', 'data')
 
 
 def download_irep(filepath):
-    # Source: https://github.com/gabsens/Python-for-Data-Scientists-ENSAE/blob/master/Devoir/IREP%20et%20devoir.ipynb
+
+    """
+    Downloads and parses the IREP dataset to a specified location.
+
+    :param filepath: the path to where the CSV file of the dataset will be saved.
+
+    Original Source: `Gabriel Romon <https://github.com/gabsens/Python-for-Data-Scientists-ENSAE/blob/master/Devoir/IREP%20et%20devoir.ipynb>`_
+   """
+
     headers = {
         'Connection': 'keep-alive',
         'Upgrade-Insecure-Requests': '1',
@@ -111,7 +119,17 @@ def download_irep(filepath):
     shutil.rmtree('./data', ignore_errors=True)
 
 
-def add_regions(df, x, y, add=["regions", "departements"]):
+def add_regions(df, x, y, add=["regions"]):
+
+    """
+    Adds regions, departments and/or communes to a dataframe.
+
+    :param df: a DataFrame containing at least two coordinate columns.
+    :param x: name of the column containing longitudes.
+    :param y: name of the columns containing lattidudes.
+    :param add: list of the columns to add. Possible values are "regions", "deparements" and "communes". Defaults to ["regions"].
+    :return: the original DataFrame with the added columns.
+   """
 
     add_reg = "regions" in add
     add_dep = "departements" in add
