@@ -28,7 +28,7 @@ def plot_aggregated_map(
 
     .. raw:: html
 
-        <iframe src="examples/out.html" height="600px" width="100%"></iframe>
+        <iframe src="out.html" height="600px" width="100%"></iframe>
 
     """
 
