@@ -6,3 +6,4 @@ build/*
 *egg-info/*
 doc/examples/*
 data/*.csv
+.ipynb_checkpoints
