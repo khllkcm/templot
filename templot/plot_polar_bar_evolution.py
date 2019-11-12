@@ -1,11 +1,11 @@
 """
-Plot Aggregated Map.
+Plot Interactive polar bar.
 """
 
 import plotly.express as px
 
 
-def plot_polar_bar_evolution(
+def plot_polar_bar_evolution_interactive(
     df, var="Quantite", year="Annee", group="Regions", agr="average"
 ):
 
