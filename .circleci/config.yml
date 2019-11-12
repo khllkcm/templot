@@ -65,5 +65,8 @@ jobs:
           path: dist/html/example_polarbar.html
           destination: dist/html/html/example_polarbar.html
       - store_artifacts:
+          path: dist/html/example_polarbar_animation.gif
+          destination: dist/html/html/example_polarbar_animation.gif
+      - store_artifacts:
           path: dist/html
           destination: dist/html 
