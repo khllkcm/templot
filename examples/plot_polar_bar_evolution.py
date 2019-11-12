@@ -25,6 +25,7 @@ df = pd.melt(
     var_name='Annee',
     value_name='Quantite',
 )
+df = df[df.Quantit != 0]
 df['Annee'] = df['Annee'].apply(lambda x: x[-4:])
 fig = plot_polar_bar_evolution(df=df, year="Annee")
 
