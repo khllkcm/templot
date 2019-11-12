@@ -1,11 +1,11 @@
 """
-Plot Polar Bar Evolution Example.
+Plot Interactive Polar Bar Evolution Example.
 ==================================
 """
 import os
 import pandas as pd
 import plotly
-from templot import plot_polar_bar_evolution, add_regions, download_irep
+from templot import plot_polar_bar_evolution_interactive, add_regions, download_irep
 
 
 filepath = os.path.join('..', 'templot', 'data', 'df.csv')
@@ -25,8 +25,9 @@ df = pd.melt(
     var_name='Annee',
     value_name='Quantite',
 )
+df = df[df.Quantit != 0]
 df['Annee'] = df['Annee'].apply(lambda x: x[-4:])
-fig = plot_polar_bar_evolution(df=df, year="Annee")
+fig = plot_polar_bar_evolution_interactive(df=df, year="Annee")
 
 # visualize the html results in sphinx gallery
 tmp_dir = os.path.join('..', 'dist', 'html')
