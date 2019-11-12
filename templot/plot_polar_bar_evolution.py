@@ -26,7 +26,7 @@ def plot_polar_bar_evolution(
 
     .. raw:: html
 
-        <img src="../example_polarbar_animation.gif" height="620px" width="100%">
+        <img src="example_polarbar_animation.gif" height="620px" width="100%">
 
     """
 
