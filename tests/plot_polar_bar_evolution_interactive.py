@@ -5,7 +5,7 @@ import unittest
 from templot import plot_polar_bar_evolution_interactive
 
 
-class TestPlotAggregatedMap(unittest.TestCase):
+class TestPlotPolarBarEvolutionInteractive(unittest.TestCase):
     "Tests for submodule plot_polar_bar_evolution_interactive"
 
     def test_empty(self):

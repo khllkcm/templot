@@ -4,8 +4,7 @@ Plot Interactive Polar Bar Evolution Example.
 """
 import os
 import pandas as pd
-import plotly
-from templot import plot_polar_bar_evolution_interactive, add_regions, download_irep
+from templot import plot_polar_bar_evolution, add_regions, download_irep
 
 
 filepath = os.path.join('..', 'templot', 'data', 'df.csv')
@@ -27,19 +26,18 @@ df = pd.melt(
 )
 df = df[df.Quantite != 0]
 df['Annee'] = df['Annee'].apply(lambda x: x[-4:])
-fig = plot_polar_bar_evolution_interactive(df=df, year="Annee")
+anim = plot_polar_bar_evolution(df)
 
 # visualize the html results in sphinx gallery
 tmp_dir = os.path.join('..', 'dist', 'html')
 if os.path.exists(tmp_dir):
-    plotly.offline.plot(
-        fig,
-        filename=os.path.join(tmp_dir, 'example_polarbar.html'),
-        auto_open=False,
+    anim.save(
+        os.path.join(tmp_dir, 'example_polarbar_animation.gif'),
+        writer='imagemagick',
     )
 
 
 ####################################
 # .. raw:: html
 #
-#     <iframe src="../example_polarbar.html" height="620px" width="100%"></iframe>
+#     <img src="../example_polarbar_animation.gif" height="620px" width="100%">
