@@ -46,5 +46,5 @@ def plot_polar_bar_evolution_interactive(
         template="plotly_dark",
         color_discrete_sequence=px.colors.sequential.Plasma[-2::-1],
     )
-
+    fig.update_layout(showlegend=False)
     return fig
