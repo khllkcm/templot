@@ -8,7 +8,7 @@ from matplotlib import animation
 import numpy as np
 
 
-def plot_polar_bar_evolution_interactive(
+def plot_polar_bar_evolution(
     df, var="Quantite", year="Annee", group="Regions", agr="average"
 ):
 
@@ -75,14 +75,14 @@ def plot_polar_bar_evolution_interactive(
 
     cNorm = mpl.colors.Normalize(vmin=data.min(), vmax=data.max())
     ax3 = fig.add_axes([0.9, 0.1, 0.03, 0.8])
-    cb1 = mpl.colorbar.ColorbarBase(ax3, norm=cNorm)
+    mpl.colorbar.ColorbarBase(ax3, norm=cNorm)
     plt.gcf().subplots_adjust(right=0.7)
 
     years = df_agr[year].unique()
     data = df_agr[df_agr[year] == years[0]][var]
     title = f"{var} de {years[0]}"
     ax.set_title(title, weight='bold', size='large', position=(0.5, 1.1))
-    bars = ax.bar(theta, data, width=0.4, color=c[df_agr[year] == years[0]])
+    ax.bar(theta, data, width=0.4, color=c[df_agr[year] == years[0]])
 
     def update(i):
         data = df_agr[df_agr[year] == years[i]][var]

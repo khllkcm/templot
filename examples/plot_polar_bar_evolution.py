@@ -27,7 +27,7 @@ df = pd.melt(
 )
 df = df[df.Quantit != 0]
 df['Annee'] = df['Annee'].apply(lambda x: x[-4:])
-plot = plot_polar_bar_evolution_interactive(df)
+plot = plot_polar_bar_evolution(df)
 plt.show()
 
 # visualize the html results in sphinx gallery
