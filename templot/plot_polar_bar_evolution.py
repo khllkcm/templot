@@ -26,7 +26,7 @@ def plot_polar_bar_evolution(
 
     .. raw:: html
 
-        <iframe src="example_polarbar.html" height="620px" width="100%"></iframe>
+        <img src="../example_polarbar_animation.gif" height="620px" width="100%">
 
     """
 
@@ -98,5 +98,5 @@ def plot_polar_bar_evolution(
     ani = animation.FuncAnimation(
         fig, update, frames=len(years), interval=1000, blit=False, repeat=False
     )
-
+    plt.close()
     return ani
