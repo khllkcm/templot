@@ -31,7 +31,10 @@ anim = plot_polar_bar_evolution(df)
 # visualize the html results in sphinx gallery
 tmp_dir = os.path.join('..', 'dist', 'html')
 if os.path.exists(tmp_dir):
-    anim.save(os.path.join(tmp_dir, 'example_polarbar_animation.gif'),writer='imagemagick')
+    anim.save(
+        os.path.join(tmp_dir, 'example_polarbar_animation.gif'),
+        writer='imagemagick',
+    )
 
 
 ####################################
