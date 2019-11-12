@@ -1,6 +1,6 @@
 """
 Plot Interactive Polar Bar Evolution Example.
-==================================
+=============================================
 """
 import os
 import pandas as pd
