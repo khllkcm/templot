@@ -3,10 +3,12 @@ Plot Aggregated Map.
 """
 
 import numpy as np
+import pandas as pd
 import folium
 import json
 import pkg_resources
 import os
+import warnings
 
 DATA_PATH = pkg_resources.resource_filename('templot', 'data')
 
@@ -32,6 +34,43 @@ def plot_aggregated_map(
 
     """
 
+    if not isinstance(df, pd.core.frame.DataFrame):
+        raise TypeError(f"df must be a DataFrame not {type(df)}.")
+
+    if len(df.shape) != 2:
+        raise ValueError(f"df must be a matrix but shape is {df.shape}")
+
+    if df.shape[1] < 2:
+        raise ValueError(
+            f"df must be a matrix with at least two columns but shape is {df.shape}"
+        )
+
+    if var not in df.columns:
+        raise ValueError(f"{var} is not a valid column name.")
+
+    if df[var].dtype != "float64":
+        raise ValueError(
+            f"{var} must contain numeric values, specifically float64."
+        )
+
+    if group not in df.columns:
+        raise ValueError(f"{group} is not a valid column name.")
+
+    if group not in ["Regions", "Departements", "Communes"]:
+        raise ValueError(
+            f"{group} is not a valid name. Possible values are: Regions, Departements or Communes"
+        )
+
+    if len(df[group].unique()) > 90:
+        warnings.warn(
+            f"Having too many groups may result in reduced performance."
+        )
+
+    if log not in ["true", "false", "auto"]:
+        raise ValueError(
+            f"{log} is not a valid argument. Possible values are: true, false or auto"
+        )
+
     aggregates = {
         "average": df.groupby(group)[var].mean(),
         "median": df.groupby(group)[var].median(),
@@ -39,6 +78,11 @@ def plot_aggregated_map(
         "min": df.groupby(group)[var].min(),
         "count": df.groupby(group)[var].count().astype("float"),
     }
+
+    if agr not in aggregates:
+        raise ValueError(
+            f"{group} is not a valid aggregation method. Possible values are: {', '.join([k for k in aggregates])}"
+        )
 
     map_data = aggregates[agr]
 
@@ -71,14 +115,17 @@ def plot_aggregated_map(
             feat["properties"]["data"] = 0
 
     m = folium.Map(tiles="CartoDB positron", zoom_start=2)
-    choropleth = folium.Choropleth(
-        geo_data=geojson,
-        data=np.log(map_data) if log_transform else map_data,
-        fill_color="BuPu",
-        key_on="feature.properties.nom",
-        highlight=True,
-        bins=9,
-    ).add_to(m)
+    try:
+        choropleth = folium.Choropleth(
+            geo_data=geojson,
+            data=np.log(map_data) if log_transform else map_data,
+            fill_color="BuPu",
+            key_on="feature.properties.nom",
+            highlight=True,
+            bins=9,
+        ).add_to(m)
+    except ValueError:
+        raise ValueError('Data contains negative or null values. Set log to "false"')
 
     choropleth.color_scale.caption = (
         f'{"log" if log_transform else ""} {agr} {var}'
