@@ -9,21 +9,24 @@ import json
 import pkg_resources
 import os
 import warnings
+import matplotlib.pyplot as plt
+import re
+from io import BytesIO
+import base64
 
 DATA_PATH = pkg_resources.resource_filename('templot', 'data')
 
 
-def plot_aggregated_map(
-    df, var="Quantite2017", group="Regions", agr="average", log="auto"
-):
+def plot_aggregated_map(df, vars, group="Regions", agr="average", height=300):
 
     """
     Plots a map of aggregated values of y by group.
 
     :param df: data
-    :param var: y
+    :param vars: a list of ncolumn names conatining values each year
     :param group: group variable name
     :param agr: aggregation method
+    :param height: tooltip height in pixels
     :return: folium map
 
     One example of this simple graph:
@@ -45,13 +48,20 @@ def plot_aggregated_map(
             f"df must be a matrix with at least two columns but shape is {df.shape}"
         )
 
-    if var not in df.columns:
-        raise ValueError(f"{var} is not a valid column name.")
+    if not vars:
+        raise ValueError(f"vars must be supplied.")
 
-    if df[var].dtype != "float64":
-        raise ValueError(
-            f"{var} must contain numeric values, specifically float64."
-        )
+    if not isinstance(vars, list):
+        raise TypeError(f"vars must be a list, not {type(vars)}")
+
+    for var in vars:
+        if var not in df.columns:
+            raise ValueError(f"{var} is not a valid column name.")
+
+        if df[var].dtype != "float64":
+            raise ValueError(
+                f"{var} must contain numeric values, specifically float64."
+            )
 
     if group not in df.columns:
         raise ValueError(f"{group} is not a valid column name.")
@@ -61,22 +71,23 @@ def plot_aggregated_map(
             f"{group} is not a valid name. Possible values are: Regions, Departements or Communes"
         )
 
+    if not isinstance(height, int):
+        raise TypeError(f"Height must be an int, not {type(height)}")
+
+    if height <= 0:
+        raise ValueError("Tooltip height must be positive")
+
     if len(df[group].unique()) > 90:
         warnings.warn(
             f"Having too many groups may result in reduced performance."
         )
 
-    if log not in ["true", "false", "auto"]:
-        raise ValueError(
-            f"{log} is not a valid argument. Possible values are: true, false or auto"
-        )
-
     aggregates = {
-        "average": df.groupby(group)[var].mean(),
-        "median": df.groupby(group)[var].median(),
-        "max": df.groupby(group)[var].max(),
-        "min": df.groupby(group)[var].min(),
-        "count": df.groupby(group)[var].count().astype("float"),
+        "average": df.groupby(group).mean(),
+        "median": df.groupby(group).median(),
+        "max": df.groupby(group).max(),
+        "min": df.groupby(group).min(),
+        "count": df.groupby(group).count().astype("float"),
     }
 
     if agr not in aggregates:
@@ -84,14 +95,7 @@ def plot_aggregated_map(
             f"{group} is not a valid aggregation method. Possible values are: {', '.join([k for k in aggregates])}"
         )
 
-    map_data = aggregates[agr]
-
-    if log == "true":
-        log_transform = True
-    elif log == "false":
-        log_transform = False
-    else:
-        log_transform = np.sqrt(map_data.var()) > 100
+    map_data = aggregates[agr][vars]
 
     if group == "Regions":
         geojson = json.loads(
@@ -109,42 +113,45 @@ def plot_aggregated_map(
         )
 
     for feat in geojson["features"]:
-        if feat["properties"]["nom"] in map_data:
-            feat["properties"]["data"] = map_data[feat["properties"]["nom"]]
+        if feat["properties"]["nom"] in map_data.index:
+            row = map_data[map_data.index == feat["properties"]["nom"]]
+            heights = (row[vars]).values.flatten().tolist()
+            y_pos = np.arange(len(vars))
+            plt.bar(y_pos, heights)
+            labels = [
+                re.search(r"\d{4}", s).group() if re.search(r"\d{4}", s) else s
+                for s in vars
+            ]
+            plt.xticks(y_pos, labels)
+            plt.xticks(rotation=45, size=9)
+            plt.title(feat["properties"]["nom"])
+            img2bytes = BytesIO()
+            plt.savefig(img2bytes, format='png')
+            plt.close()
+            img2bytes.seek(0)
+            bytesto64 = base64.b64encode(img2bytes.read())
+            feat["properties"][
+                "image"
+            ] = f'<img height="{height}" src="data:image/png;base64,{bytesto64.decode("utf-8")}"/>'
+
         else:
-            feat["properties"]["data"] = 0
+            feat["properties"]["image"] = ""
 
     m = folium.Map(tiles="CartoDB positron", zoom_start=2)
-    try:
-        choropleth = folium.Choropleth(
-            geo_data=geojson,
-            data=np.log(map_data) if log_transform else map_data,
-            fill_color="BuPu",
-            key_on="feature.properties.nom",
-            highlight=True,
-            bins=9,
-        ).add_to(m)
-    except ValueError:
-        raise ValueError('Data contains negative or null values. Set log to "false"')
+    choropleth = folium.Choropleth(
+        geo_data=geojson,
+        data=map_data.mean(axis=1),
+        fill_color="BuPu",
+        key_on="feature.properties.nom",
+        highlight=True,
+        bins=9,
+    ).add_to(m)
 
     choropleth.color_scale.caption = (
-        f'{"log" if log_transform else ""} {agr} {var}'
+        f'Mean {agr} quantity over the {len(vars)} years'
     )
-
     choropleth.geojson.add_child(
-        folium.features.GeoJsonTooltip(
-            fields=["nom", "data"],
-            labels=False,
-            sticky=False,
-            aliases=[
-                '<div style="background-color: lightyellow; color: black; padding: 3px; border: 2px solid black; border-radius: 3px;">'
-                + item
-                + "</div>"
-                for item in ["nom", "data"]
-            ],
-            style="font-family: sans serif;",
-            localize=True,
-        )
+        folium.features.GeoJsonTooltip(fields=["image"], labels=False)
     )
 
     m.fit_bounds(m.get_bounds())

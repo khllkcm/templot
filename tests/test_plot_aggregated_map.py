@@ -26,54 +26,47 @@ class TestPlotAggregatedMap(unittest.TestCase):
             df = []
             plot_aggregated_map(df)
 
-    def test_bad_var(self):
-        with self.assertRaises(ValueError):
+    def test_bad_vars(self):
+        with self.assertRaises(TypeError):
             plot_aggregated_map(
-                self.df,
-                var="Quantite201",
-                group="Regions",
-                agr="average",
-                log="auto",
+                self.df, vars="Quantite2017", group="Regions", agr="average"
             )
 
     def test_bad_group(self):
         with self.assertRaises(ValueError):
             plot_aggregated_map(
                 self.df,
-                var="Quantite2017",
+                vars=["Quantite2017"],
                 group="Departement",
                 agr="average",
-                log="auto",
             )
 
     def test_performance(self):
         with self.assertWarns(UserWarning):
             plot_aggregated_map(
                 self.df,
-                var="Quantite2017",
+                vars=["Quantite2017"],
                 group="Departements",
                 agr="average",
-                log="auto",
             )
 
     def test_bad_agr(self):
         with self.assertRaises(ValueError):
             plot_aggregated_map(
                 self.df,
-                var="Quantite2017",
-                group="Departement",
+                vars=["Quantite2017"],
+                group="Departements",
                 agr="averag",
-                log="auto",
             )
 
-    def test_bad_log(self):
-        with self.assertRaises(ValueError):
+    def test_bad_height(self):
+        with self.assertRaises(TypeError):
             plot_aggregated_map(
                 self.df,
-                var="Quantite2017",
-                group="Departement",
-                agr="averag",
-                log="False",
+                vars=["Quantite2017"],
+                group="Regions",
+                agr="average",
+                height="-1",
             )
 
 

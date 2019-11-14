@@ -17,7 +17,18 @@ if not os.path.exists(filepath):
 
 df = pd.read_csv(filepath)
 
-map = plot_aggregated_map(df=df)
+map = plot_aggregated_map(
+    df=df,
+    vars=[
+        "Quantite2004",
+        "Quantite2005",
+        "Quantite2006",
+        "Quantite2007",
+        "Quantite2008",
+        "Quantite2009",
+    ],
+    height=300,
+)
 
 # visualize the html results in sphinx gallery
 tmp_dir = os.path.join('..', 'dist', 'html')
