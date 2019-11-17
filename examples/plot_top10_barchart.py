@@ -24,7 +24,8 @@ df = pd.melt(
     df,
     id_vars=['Identifiant', 'Nom_Etablissement_x', 'LLX', 'LLY', 'Regions'],
     var_name='Annee',
-    value_name='Quantite')
+    value_name='Quantite',
+)
 
 df = df[df.Quantite != 0]
 df['Annee'] = df['Annee'].apply(lambda x: int(x[-4:]))
@@ -39,16 +40,23 @@ ani = animation.FuncAnimation(
     frames=range(2003, 2018),
     interval=1500,
     fargs=[
-        df, "Quantite", "Annee", "Regions", 'Nom_Etablissement_x',
+        df,
+        "Quantite",
+        "Annee",
+        "Regions",
+        'Nom_Etablissement_x',
         'Les établissement émettant le plus de déchets dangereux de 2003 à 2017',
-        'Déchets dangereux (t/an)'
-    ])
+        'Déchets dangereux (t/an)',
+    ],
+)
 
 # visualize the result gif in sphinx gallery
 tmp_dir = os.path.join('..', 'dist', 'html')
 if os.path.exists(tmp_dir):
-    ani.save(os.path.join(tmp_dir, "example_top10.gif"),
-             savefig_kwargs={'facecolor': '#F8F7F7'})
+    ani.save(
+        os.path.join(tmp_dir, "example_top10.gif"),
+        savefig_kwargs={'facecolor': '#F8F7F7'},
+    )
 
 
 ####################################
