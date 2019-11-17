@@ -7,3 +7,5 @@ Plots
 .. autofunction:: templot.plot_polar_bar_evolution
 
 .. autofunction:: templot.plot_polar_bar_evolution_interactive
+
+.. autofunction:: templot.plot_top10_barchart
