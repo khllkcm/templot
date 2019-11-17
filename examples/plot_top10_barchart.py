@@ -47,11 +47,15 @@ ani = animation.FuncAnimation(
 # visualize the result gif in sphinx gallery
 tmp_dir = os.path.join('..', 'dist', 'html')
 if os.path.exists(tmp_dir):
+<<<<<<< HEAD
     ani.save(
         os.path.join(tmp_dir, "example_top10.gif"),
         savefig_kwargs={
             'facecolor': '#F8F7F7'
         })
+=======
+    ani.save(os.path.join(tmp_dir,"example_top10.gif"), savefig_kwargs={'facecolor':'#F8F7F7'},writer='imagemagick')
+>>>>>>> fa3e95c6380b5493775e3da28d524c8176b7bf10
 
 ####################################
 # .. raw:: html
