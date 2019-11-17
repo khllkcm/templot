@@ -4,7 +4,7 @@ Plot Top 10 Barchart Example
 """
 
 import os
-from templot import plot_aggregated_map, add_regions, download_irep
+from templot import add_regions, download_irep
 import pandas as pd
 import matplotlib.animation as animation
 from IPython.display import HTML
