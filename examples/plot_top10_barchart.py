@@ -44,3 +44,8 @@ ani = animation.FuncAnimation(fig, plot_top10_barchart, frames=range(2003, 2018)
 tmp_dir = os.path.join('..', 'dist', 'html')
 if os.path.exists(tmp_dir):
     ani.save(os.path.join(tmp_dir,"example_top10.gif", savefig_kwargs={'facecolor':'#F8F7F7'}))
+
+####################################
+# .. raw:: html
+#
+#     <img src="../example_top10.gif" height="620px" width="100%">    
