@@ -34,7 +34,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            coverage run --source=templot -m unittest discover tests
+            coverage run --source=templot -m unittest discover tests -p "test_plot_p*"
       - run:
           name: flake8
           command: |
