@@ -55,6 +55,7 @@ tmp_dir = os.path.join('..', 'dist', 'html')
 if os.path.exists(tmp_dir):
     ani.save(
         os.path.join(tmp_dir, "example_top10.gif"),
+        writer="imagemagick",
         savefig_kwargs={'facecolor': '#F8F7F7'},
     )
 
