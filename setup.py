@@ -9,7 +9,7 @@ with open(os.path.join(here, "requirements.txt"), "r") as f:
     requirements = f.read().split("\n")
 
 setup(name='templot',
-      version='0.1',
+      version='0.3',
       description="Python package for visualizing time evolution.",
       long_description="This package offers various functions for visually exploring data variation in time",
       author='Khalil Kacem',
