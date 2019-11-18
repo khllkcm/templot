@@ -1,5 +1,4 @@
-__version__ = "0.3"
-__author__ = "Khalil Kacem"
+__version__ = "0.4"
 
 from .plot_aggregated_map import plot_aggregated_map  # noqa: F401
 from .plot_polar_bar_evolution import plot_polar_bar_evolution  # noqa: F401
