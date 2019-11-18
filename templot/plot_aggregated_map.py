@@ -61,10 +61,15 @@ def plot_aggregated_map(
         if var not in data.columns:
             raise ValueError(f"{var} is not a valid column name.")
 
-        if data[var].dtype not in ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']:
-            raise ValueError(
-                f"{var} must contain numeric values."
-            )
+        if data[var].dtype not in [
+            'int16',
+            'int32',
+            'int64',
+            'float16',
+            'float32',
+            'float64',
+        ]:
+            raise ValueError(f"{var} must contain numeric values.")
 
     if group not in data.columns:
         raise ValueError(f"{group} is not a valid column name.")
