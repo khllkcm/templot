@@ -11,7 +11,9 @@ class TestPlotPolarBarEvolutionInteractive(unittest.TestCase):
     def test_empty(self):
         with self.assertRaises(AttributeError):
             df = []
-            plot_polar_bar_evolution_interactive(df)
+            plot_polar_bar_evolution_interactive(
+                df, var="Quantite", year="Annee"
+            )
 
 
 if __name__ == '__main__':
