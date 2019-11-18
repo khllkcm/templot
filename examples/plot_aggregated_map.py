@@ -9,8 +9,8 @@ from templot import plot_aggregated_map, add_regions, download_irep
 
 filepath = os.path.join('..', 'templot', 'data', 'df.csv')
 if not os.path.exists(filepath):
-    if not os.path.exists(os.path.join('..','templot', 'data')):
-        os.makedirs(os.path.join('..','templot', 'data'))
+    if not os.path.exists(os.path.join('..', 'templot', 'data')):
+        os.makedirs(os.path.join('..', 'templot', 'data'))
     download_irep(filepath)
     df = pd.read_csv(filepath)
     df = add_regions(df, "LLX", "LLY")
