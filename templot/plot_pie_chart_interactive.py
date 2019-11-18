@@ -103,7 +103,7 @@ def plot_pie_chart_interactive(df, col, year, year1, sticker):
     fig.update_layout(
         title_text="Percentage of "
         + col.lower()
-        + " per {sticker} in two years.",
+        + f" per {sticker} in two years.",
         # Add annotations in the center of the donut pies.
         annotations=[
             dict(text=year, x=0.5, y=0.82, font_size=20, showarrow=False),
