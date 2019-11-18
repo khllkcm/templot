@@ -21,9 +21,9 @@ def plot_top10_barchart(
     ax=None,
     **kwargs,
 ):
-
     """
     Plots a barchart of the top 10 values colored by group.
+
     :param year: year to be plotted
     :param df: dataframe
     :param values: sorting variable name
@@ -33,8 +33,11 @@ def plot_top10_barchart(
     :param title: title
     :param label: label and unit of the values
     :param ax: graph axes
+
     Gif example of this graph:
+
     .. raw:: html
+
         <img src="example_top10.gif" height="620px" width="100%">
     """
 
@@ -48,7 +51,9 @@ def plot_top10_barchart(
     ax.clear()
     ll = list(dict.fromkeys(df["Regions"]))
     if len(ll) < 8:
-        colors = dict(zip(ll, [cm.Set2(x) for x in linspace(0, 0.87, len(ll))]))
+        colors = dict(
+            zip(ll, [cm.Set2(x) for x in linspace(0, 0.87, len(ll))])
+        )
     else:
         colors = dict(
             zip(
