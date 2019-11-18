@@ -10,8 +10,8 @@ import numpy as np
 
 def plot_polar_bar_evolution(
     df,
-    var="Quantite",
-    year="Annee",
+    var,
+    year,
     group="Regions",
     agr="average",
     y_grid=False,
@@ -27,9 +27,9 @@ def plot_polar_bar_evolution(
     :param year: name of the column containing the year of each observation.
     :param group: group variable column name. Possible values are "Regions", "Departements", "Communes". Defaults to "Regions".
     :param aggregation_method: aggregation method. Possible values are "average", "median", "min", "max" and "count". Defaults to "average".
-    :param y_grid: boolean for showing the grid along the radial axis.
-    :param x_grid: boolean or showing an angular grid.
-    :param yticks: boolean for showing the radial ticks.
+    :param y_grid: boolean for showing the grid along the radial axis. Defaults to False.
+    :param x_grid: boolean or showing an angular grid. Defaults to False.
+    :param yticks: boolean for showing the radial ticks. Defaults to False.
     :return: MatplotLib animation
 
     One example of this plot:
@@ -90,7 +90,7 @@ def plot_polar_bar_evolution(
 
     years = df_agr[year].unique()
     data = df_agr[df_agr[year] == years[0]][var]
-    title = f"{var} de {years[0]}"
+    title = f"{agr} {var} in {years[0]}"
     ax.set_title(title, weight='bold', size='large', position=(0.5, 1.1))
     ax.bar(theta, data, width=0.4, color=c[df_agr[year] == years[0]])
 
@@ -98,7 +98,7 @@ def plot_polar_bar_evolution(
         data = df_agr[df_agr[year] == years[i]][var]
         for obj in ax.findobj(match=mpl.patches.Rectangle):
             obj.remove()
-        title = f"{var} de {years[i]}"
+        title = f"{agr} {var} in {years[i]}"
         ax.set_title(title, weight='bold', size='large', position=(0.5, 1.1))
         bars = ax.bar(
             theta, data, width=0.4, color=c[df_agr[year] == years[i]]

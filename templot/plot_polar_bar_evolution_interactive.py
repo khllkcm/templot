@@ -6,11 +6,11 @@ import plotly.express as px
 
 
 def plot_polar_bar_evolution_interactive(
-    df, var="Quantite", year="Annee", group="Regions", agr="average"
+    df, var, year, group="Regions", agr="average"
 ):
 
     """
-    Plots an animated polar bar showing the evolution of a variable by group across year.
+    Plots an interactive animated polar bar showing the evolution of a variable by group across year.
 
     :param df: DataFrame
     :param var: name of the column containing the values.
