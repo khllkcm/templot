@@ -27,9 +27,9 @@ def plot_aggregated_map(
 
     :param data: Pandas DataFrame containing (at least) two columns; one of the group and another(/others) of the variable(s) of interest.
     :param variables: a list of column names containing values each year
-    :param group: group variable name. Possible values are "Regions", "Departements", "Communes".
-    :param aggregation_method: aggregation method. Possible values are "average", "median", "min", "max" and "count".
-    :param height: tooltip height in pixels.
+    :param group: group variable name. Possible values are "Regions", "Departements", "Communes". Defaults to "Regions".
+    :param aggregation_method: aggregation method. Possible values are "average", "median", "min", "max" and "count". Defaults to "average".
+    :param height: tooltip height in pixels. Defaults to 300.
     :return: Folium map
 
     One example of this map:

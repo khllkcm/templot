@@ -10,14 +10,14 @@ def plot_polar_bar_evolution_interactive(
 ):
 
     """
-    Plots a polar bar showing the evolution of y by group across year.
+    Plots an animated polar bar showing the evolution of a variable by group across year.
 
-    :param df: data
-    :param var: y
-    :param year: year
-    :param group: group variable name
-    :param agr: aggregation method
-    :return: plotly figure
+    :param df: DataFrame
+    :param var: name of the column containing the values.
+    :param year: name of the column containing the year of each observation.
+    :param group: group variable column name. Possible values are "Regions", "Departements", "Communes". Defaults to "Regions".
+    :param aggregation_method: aggregation method. Possible values are "average", "median", "min", "max" and "count". Defaults to "average".
+    :return: Plotly figure
 
     One example of this simple graph:
 
@@ -32,7 +32,10 @@ def plot_polar_bar_evolution_interactive(
         "median": df.groupby([group, year])[var].median().reset_index(),
         "max": df.groupby([group, year])[var].max().reset_index(),
         "min": df.groupby([group, year])[var].min().reset_index(),
-        "count": df.groupby([group, year])[var].count().astype("float").reset_index(),
+        "count": df.groupby([group, year])[var]
+        .count()
+        .astype("float")
+        .reset_index(),
     }
 
     df_agr = aggregates[agr]

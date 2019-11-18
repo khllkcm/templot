@@ -9,20 +9,30 @@ import numpy as np
 
 
 def plot_polar_bar_evolution(
-    df, var="Quantite", year="Annee", group="Regions", agr="average"
+    df,
+    var="Quantite",
+    year="Annee",
+    group="Regions",
+    agr="average",
+    y_grid=False,
+    x_grid=False,
+    y_ticks=False,
 ):
 
     """
-    Plots a polar bar showing the evolution of y by group across year.
+    Plots an animated polar bar showing the evolution of a variable by group across year.
 
-    :param df: data
-    :param var: y
-    :param year: year
-    :param group: group variable name
-    :param agr: aggregation method
-    :return: matplotlib animation
+    :param df: DataFrame
+    :param var: name of the column containing the values.
+    :param year: name of the column containing the year of each observation.
+    :param group: group variable column name. Possible values are "Regions", "Departements", "Communes". Defaults to "Regions".
+    :param aggregation_method: aggregation method. Possible values are "average", "median", "min", "max" and "count". Defaults to "average".
+    :param y_grid: boolean for showing the grid along the radial axis.
+    :param x_grid: boolean or showing an angular grid.
+    :param yticks: boolean for showing the radial ticks.
+    :return: MatplotLib animation
 
-    One example of this simple graph:
+    One example of this plot:
 
     .. raw:: html
 
@@ -69,9 +79,9 @@ def plot_polar_bar_evolution(
         if y <= -0.5:
             label.set_verticalalignment('top')
 
-    ax.xaxis.grid(False)
-    ax.yaxis.grid(False)
-    plt.setp(ax.get_yticklabels(), visible=False)
+    ax.xaxis.grid(x_grid)
+    ax.yaxis.grid(y_grid)
+    plt.setp(ax.get_yticklabels(), visible=y_ticks)
 
     cNorm = mpl.colors.Normalize(vmin=data.min(), vmax=data.max())
     ax3 = fig.add_axes([0.9, 0.1, 0.03, 0.8])
