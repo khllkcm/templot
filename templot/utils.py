@@ -137,19 +137,19 @@ def add_regions(df, x, y, add=["regions"]):
 
     if add_reg:
         region_geo_json = json.loads(
-            open(os.path.join(DATA_PATH, 'regions.geojson')).read()
+            open(os.path.join(DATA_PATH, 'regions.geojson'), encoding="utf8").read()
         )
         reg = geopip.GeoPIP(geojson_dict=region_geo_json)
 
     if add_dep:
         dep_geo_json = json.loads(
-            open(os.path.join(DATA_PATH, 'departements.geojson')).read()
+            open(os.path.join(DATA_PATH, 'departements.geojson'), encoding="utf8").read()
         )
         dep = geopip.GeoPIP(geojson_dict=dep_geo_json)
 
     if add_comm:
         com_geo_json = json.loads(
-            open(os.path.join(DATA_PATH, 'communes.geojson')).read()
+            open(os.path.join(DATA_PATH, 'communes.geojson'), encoding="utf8").read()
         )
         com = geopip.GeoPIP(geojson_dict=com_geo_json)
 
