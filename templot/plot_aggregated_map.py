@@ -98,19 +98,16 @@ def plot_aggregated_map(df, vars, group="Regions", agr="average", height=300):
     map_data = aggregates[agr][vars]
 
     if group == "Regions":
-        geojson = json.loads(
-            open(os.path.join(DATA_PATH, 'regions.geojson')).read()
-        )
+        with open(os.path.join(DATA_PATH, 'regions.geojson')) as f:
+            geojson = json.loads(f.read())
 
     if group == "Departements":
-        geojson = json.loads(
-            open(os.path.join(DATA_PATH, 'departements.geojson')).read()
-        )
+        with open(os.path.join(DATA_PATH, 'departements.geojson')) as f:
+            geojson = json.loads(f.read())
 
     if group == "Communes":
-        geojson = json.loads(
-            open(os.path.join(DATA_PATH, 'communes.geojson')).read()
-        )
+        with open(os.path.join(DATA_PATH, 'communes.geojson')) as f:
+            geojson = json.loads(f.read())
 
     for feat in geojson["features"]:
         if feat["properties"]["nom"] in map_data.index:
