@@ -5,6 +5,9 @@ import unittest
 from templot import plot_aggregated_map, download_irep, add_regions
 import os
 import pandas as pd
+from unittest import TestCase
+
+
 
 
 class TestPlotAggregatedMap(unittest.TestCase):
@@ -69,6 +72,26 @@ class TestPlotAggregatedMap(unittest.TestCase):
                 height="-1",
             )
 
+    params = [
+        [["Quantite2016", "Quantite2017"], "Regions", "average", 200],
+        [["Quantite2016", "Quantite2017"], "Regions", "median", 200],
+        [["Quantite2016", "Quantite2017"], "Regions", "min", 200],
+        [["Quantite2016", "Quantite2017"], "Regions", "max", 200],
+        [["Quantite2016", "Quantite2017"], "Regions", "count", 200],
+        [["Quantite2016", "Quantite2017"], "Departements", "average", 200],
+        [["Quantite2016", "Quantite2017"], "Departements", "median", 200],
+        [["Quantite2016", "Quantite2017"], "Departements", "min", 200],
+        [["Quantite2016", "Quantite2017"], "Departements", "max", 200],
+        [["Quantite2016", "Quantite2017"], "Departements", "count", 200]
+    ]
+
+    def test_combinations(self):
+        for vars, group, agr, height in self.params:
+            with self.subTest():
+                try:
+                    plot_aggregated_map(self.df, vars, group, agr, height)
+                except Exception as e: 
+                    raise(e)
 
 if __name__ == '__main__':
     unittest.main()
