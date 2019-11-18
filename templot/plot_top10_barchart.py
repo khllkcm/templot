@@ -2,6 +2,8 @@
 Plot Top 10 Barchart
 """
 
+import pandas as pd
+import warnings
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import matplotlib.patheffects as path_effects
@@ -23,24 +25,49 @@ def plot_top10_barchart(
 ):
     """
     Plots a barchart of the top 10 values colored by group.
-
-    :param year: year to be plotted
-    :param df: dataframe
-    :param values: sorting variable name
-    :param year_var: year variable name
-    :param color_var: group variable name
-    :param names_var: bar labels variable name
-    :param title: title
-    :param label: label and unit of the values
+    :param year: year to be plotted (int)
+    :param df: dataset (pandas DataFrame)
+    :param values: sorting variable name (string)
+    :param year_var: year variable name (string)
+    :param color_var: color group variable name (string)
+    :param names_var: bar labels variable name (string)
+    :param title: title (string)
+    :param label: label and unit of the values (string)
     :param ax: graph axes
-
     Gif example of this graph:
-
     .. raw:: html
-
         <img src="example_top10.gif" height="620px" width="100%">
     """
 
+    if not isinstance(year, int):
+        raise TypeError(f"year must be an int, not {type(year)}")
+    
+    if not isinstance(df, pd.core.frame.DataFrame):
+        raise TypeError(f"data must be a DataFrame not {type(df)}.")
+
+    if len(df.shape) != 2:
+        raise ValueError(f"data must be a matrix but shape is {df.shape}")
+
+    for var in [values, year_var, color_var, names_var]:
+        if var not in df.columns:
+            raise ValueError(f"{var} is not a valid column name.")
+    
+    if not isinstance(title, str):
+        raise TypeError(f"title must be a string not {type(title)}.")
+        
+    if not isinstance(label, str):
+        raise TypeError(f"label must be a string not {type(label)}.")
+
+    for var in [values, year_var]:
+        if df[var].dtype not in ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']:
+            raise ValueError(f"{var} must contain numeric values")
+
+    if df[df[year_var] == year].shape[0]==0:
+        raise ValueError("404 year not found in dataframe")
+
+    if len(df[color_var].unique()) > 25:
+        warnings.warn(f"Having too many groups will result in repeated colors")
+        
     dff = (
         df[df[year_var] == year]
         .sort_values(by=values, ascending=True)
@@ -49,7 +76,7 @@ def plot_top10_barchart(
     if ax is None:
         ax = plt.gca()
     ax.clear()
-    ll = list(dict.fromkeys(df["Regions"]))
+    ll = list(dict.fromkeys(df[color_var]))
     if len(ll) < 8:
         colors = dict(
             zip(ll, [cm.Set2(x) for x in linspace(0, 0.87, len(ll))])
@@ -106,7 +133,7 @@ def plot_top10_barchart(
         0, 1.1, title, transform=ax.transAxes, size=24, weight=600, ha='left'
     )
     plt.box(False)
-    regions = list(dict.fromkeys(dff[color_var][::-1]))
-    lgd = ax.legend(bars, regions, loc=(0.82, 0.03))
+    color_var_uniq = list(dict.fromkeys(dff[color_var][::-1]))
+    lgd = ax.legend(bars, color_var_uniq, loc=(0.82, 0.03))
     for i, j in enumerate(lgd.legendHandles):
-        j.set_color([colors[x] for x in regions][i])
+        j.set_color([colors[x] for x in color_var_uniq][i])
