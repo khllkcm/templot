@@ -5,7 +5,6 @@ import unittest
 from templot import plot_aggregated_map, download_irep, add_regions
 import os
 import pandas as pd
-from unittest import TestCase
 
 
 class TestPlotAggregatedMap(unittest.TestCase):
