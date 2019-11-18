@@ -26,46 +26,49 @@ class TestPlotAggregatedMap(unittest.TestCase):
             df = []
             plot_aggregated_map(df)
 
-    def test_bad_vars(self):
+    def test_bad_variables(self):
         with self.assertRaises(TypeError):
             plot_aggregated_map(
-                self.df, vars="Quantite2017", group="Regions", agr="average"
+                self.df,
+                variables="Quantite2017",
+                group="Regions",
+                aggregation_method="average",
             )
 
     def test_bad_group(self):
         with self.assertRaises(ValueError):
             plot_aggregated_map(
                 self.df,
-                vars=["Quantite2017"],
+                variables=["Quantite2017"],
                 group="Departement",
-                agr="average",
+                aggregation_method="average",
             )
 
     def test_performance(self):
         with self.assertWarns(UserWarning):
             plot_aggregated_map(
                 self.df,
-                vars=["Quantite2017"],
+                variables=["Quantite2017"],
                 group="Departements",
-                agr="average",
+                aggregation_method="average",
             )
 
-    def test_bad_agr(self):
+    def test_bad_aggregation_method(self):
         with self.assertRaises(ValueError):
             plot_aggregated_map(
                 self.df,
-                vars=["Quantite2017"],
+                variables=["Quantite2017"],
                 group="Departements",
-                agr="averag",
+                aggregation_method="averag",
             )
 
     def test_bad_height(self):
         with self.assertRaises(TypeError):
             plot_aggregated_map(
                 self.df,
-                vars=["Quantite2017"],
+                variables=["Quantite2017"],
                 group="Regions",
-                agr="average",
+                aggregation_method="average",
                 height="-1",
             )
 
@@ -83,10 +86,12 @@ class TestPlotAggregatedMap(unittest.TestCase):
     ]
 
     def test_combinations(self):
-        for vars, group, agr, height in self.params:
+        for variables, group, aggregation_method, height in self.params:
             with self.subTest():
                 try:
-                    plot_aggregated_map(self.df, vars, group, agr, height)
+                    plot_aggregated_map(
+                        self.df, variables, group, aggregation_method, height
+                    )
                 except Exception as e:
                     raise (e)
 

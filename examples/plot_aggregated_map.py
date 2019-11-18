@@ -17,9 +17,9 @@ if not os.path.exists(filepath):
 
 df = pd.read_csv(filepath)
 
-map = plot_aggregated_map(
-    df=df,
-    vars=[
+my_map = plot_aggregated_map(
+    data=df,
+    variables=[
         "Quantite2004",
         "Quantite2005",
         "Quantite2006",
@@ -27,6 +27,7 @@ map = plot_aggregated_map(
         "Quantite2008",
         "Quantite2009",
     ],
+    aggregation_method="average",
     height=300,
 )
 
@@ -34,7 +35,7 @@ map = plot_aggregated_map(
 tmp_dir = os.path.join('..', 'dist', 'html')
 if os.path.exists(tmp_dir):
     with open(os.path.join(tmp_dir, 'example_agrmap.html'), 'wt') as fh:
-        fh.write(map.get_root().render())
+        fh.write(my_map.get_root().render())
 
 ####################################
 # .. raw:: html

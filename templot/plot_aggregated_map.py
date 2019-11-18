@@ -17,19 +17,22 @@ import base64
 DATA_PATH = pkg_resources.resource_filename('templot', 'data')
 
 
-def plot_aggregated_map(df, vars, group="Regions", agr="average", height=300):
+def plot_aggregated_map(
+    data, variables, group="Regions", aggregation_method="average", height=300
+):
 
     """
-    Plots a map of aggregated values of y by group.
+    Plots a map that shows the evolution of an aggregated value of variables per group (regions, departments or communes)
+    For example, this function can be used to show the evolution of the average of each of two variables (each representing a year) by region.
 
-    :param df: data
-    :param vars: a list of ncolumn names conatining values each year
-    :param group: group variable name
-    :param agr: aggregation method
-    :param height: tooltip height in pixels
-    :return: folium map
+    :param data: Pandas DataFrame containing (at least) two columns; one of the group and another(/others) of the variable(s) of interest.
+    :param variables: a list of column names containing values each year
+    :param group: group variable name. Possible values are "Regions", "Departements", "Communes".
+    :param aggregation_method: aggregation method. Possible values are "average", "median", "min", "max" and "count".
+    :param height: tooltip height in pixels.
+    :return: Folium map
 
-    One example of this simple graph:
+    One example of this map:
 
     .. raw:: html
 
@@ -37,33 +40,33 @@ def plot_aggregated_map(df, vars, group="Regions", agr="average", height=300):
 
     """
 
-    if not isinstance(df, pd.core.frame.DataFrame):
-        raise TypeError(f"df must be a DataFrame not {type(df)}.")
+    if not isinstance(data, pd.core.frame.DataFrame):
+        raise TypeError(f"data must be a DataFrame not {type(data)}.")
 
-    if len(df.shape) != 2:
-        raise ValueError(f"df must be a matrix but shape is {df.shape}")
+    if len(data.shape) != 2:
+        raise ValueError(f"data must be a matrix but shape is {data.shape}")
 
-    if df.shape[1] < 2:
+    if data.shape[1] < 2:
         raise ValueError(
-            f"df must be a matrix with at least two columns but shape is {df.shape}"
+            f"data must be a matrix with at least two columns but shape is {data.shape}"
         )
 
-    if not vars:
-        raise ValueError(f"vars must be supplied.")
+    if not variables:
+        raise ValueError(f"variables must be supplied.")
 
-    if not isinstance(vars, list):
-        raise TypeError(f"vars must be a list, not {type(vars)}")
+    if not isinstance(variables, list):
+        raise TypeError(f"variables must be a list, not {type(variables)}")
 
-    for var in vars:
-        if var not in df.columns:
+    for var in variables:
+        if var not in data.columns:
             raise ValueError(f"{var} is not a valid column name.")
 
-        if df[var].dtype != "float64":
+        if data[var].dtype != "float64":
             raise ValueError(
                 f"{var} must contain numeric values, specifically float64."
             )
 
-    if group not in df.columns:
+    if group not in data.columns:
         raise ValueError(f"{group} is not a valid column name.")
 
     if group not in ["Regions", "Departements", "Communes"]:
@@ -77,51 +80,59 @@ def plot_aggregated_map(df, vars, group="Regions", agr="average", height=300):
     if height <= 0:
         raise ValueError("Tooltip height must be positive")
 
-    if len(df[group].unique()) > 90:
+    if len(data[group].unique()) > 90:
         warnings.warn(
             f"Having too many groups may result in reduced performance."
         )
 
     aggregates = {
-        "average": df.groupby(group).mean(),
-        "median": df.groupby(group).agg(lambda x: x[x > 0].median()),
-        "max": df.groupby(group).max(),
-        "min": df.groupby(group).agg(lambda x: x[x > 0].min()),
-        "count": df.groupby(group).agg(lambda x: x[x > 0].count()),
+        "average": data.groupby(group).mean(),
+        "median": data.groupby(group).agg(lambda x: x[x > 0].median()),
+        "max": data.groupby(group).max(),
+        "min": data.groupby(group).agg(lambda x: x[x > 0].min()),
+        "count": data.groupby(group).agg(lambda x: x[x > 0].count()),
     }
 
-    if agr not in aggregates:
+    if aggregation_method not in aggregates:
         raise ValueError(
             f"{group} is not a valid aggregation method. Possible values are: {', '.join([k for k in aggregates])}"
         )
 
-    map_data = aggregates[agr][vars]
+    map_data = aggregates[aggregation_method][variables]
 
     if group == "Regions":
-        with open(os.path.join(DATA_PATH, 'regions.geojson'), encoding="utf8") as f:
+        with open(
+            os.path.join(DATA_PATH, 'regions.geojson'), encoding="utf8"
+        ) as f:
             geojson = json.loads(f.read())
 
     if group == "Departements":
-        with open(os.path.join(DATA_PATH, 'departements.geojson'), encoding="utf8") as f:
+        with open(
+            os.path.join(DATA_PATH, 'departements.geojson'), encoding="utf8"
+        ) as f:
             geojson = json.loads(f.read())
 
     if group == "Communes":
-        with open(os.path.join(DATA_PATH, 'communes.geojson'), encoding="utf8") as f:
+        with open(
+            os.path.join(DATA_PATH, 'communes.geojson'), encoding="utf8"
+        ) as f:
             geojson = json.loads(f.read())
 
     for feat in geojson["features"]:
         if feat["properties"]["nom"] in map_data.index:
             row = map_data[map_data.index == feat["properties"]["nom"]]
-            heights = (row[vars]).values.flatten().tolist()
-            y_pos = np.arange(len(vars))
+            heights = (row[variables]).values.flatten().tolist()
+            y_pos = np.arange(len(variables))
             plt.bar(y_pos, heights)
             labels = [
                 re.search(r"\d{4}", s).group() if re.search(r"\d{4}", s) else s
-                for s in vars
+                for s in variables
             ]
             plt.xticks(y_pos, labels)
             plt.xticks(rotation=45, size=9)
-            plt.title(feat["properties"]["nom"])
+            plt.title(
+                f'Evolution of the {aggregation_method} in {feat["properties"]["nom"]}'
+            )
             img2bytes = BytesIO()
             plt.savefig(img2bytes, format='png')
             plt.close()
@@ -145,7 +156,7 @@ def plot_aggregated_map(df, vars, group="Regions", agr="average", height=300):
     ).add_to(m)
 
     choropleth.color_scale.caption = (
-        f'Mean {agr} quantity over the {len(vars)} years'
+        f'Mean {aggregation_method} over the {len(variables)} years'
     )
     choropleth.geojson.add_child(
         folium.features.GeoJsonTooltip(fields=["image"], labels=False)
