@@ -24,7 +24,7 @@ class TestPlotAggregatedMap(unittest.TestCase):
     def test_bad_df(self):
         with self.assertRaises(TypeError):
             df = []
-            plot_aggregated_map(df)
+            plot_aggregated_map(df, variables="Quantite2017")
 
     def test_bad_variables(self):
         with self.assertRaises(TypeError):
