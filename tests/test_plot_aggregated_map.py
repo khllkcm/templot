@@ -8,8 +8,6 @@ import pandas as pd
 from unittest import TestCase
 
 
-
-
 class TestPlotAggregatedMap(unittest.TestCase):
     "Tests for submodule plot_aggregated_map"
     filepath = os.path.join('.', 'df_test.csv')
@@ -82,7 +80,7 @@ class TestPlotAggregatedMap(unittest.TestCase):
         [["Quantite2016", "Quantite2017"], "Departements", "median", 200],
         [["Quantite2016", "Quantite2017"], "Departements", "min", 200],
         [["Quantite2016", "Quantite2017"], "Departements", "max", 200],
-        [["Quantite2016", "Quantite2017"], "Departements", "count", 200]
+        [["Quantite2016", "Quantite2017"], "Departements", "count", 200],
     ]
 
     def test_combinations(self):
@@ -90,8 +88,9 @@ class TestPlotAggregatedMap(unittest.TestCase):
             with self.subTest():
                 try:
                     plot_aggregated_map(self.df, vars, group, agr, height)
-                except Exception as e: 
-                    raise(e)
+                except Exception as e:
+                    raise (e)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -84,10 +84,10 @@ def plot_aggregated_map(df, vars, group="Regions", agr="average", height=300):
 
     aggregates = {
         "average": df.groupby(group).mean(),
-        "median": df.groupby(group).agg(lambda x: x[x>0].median()),
+        "median": df.groupby(group).agg(lambda x: x[x > 0].median()),
         "max": df.groupby(group).max(),
-        "min": df.groupby(group).agg(lambda x: x[x>0].min()),
-        "count": df.groupby(group).agg(lambda x: x[x>0].count()),
+        "min": df.groupby(group).agg(lambda x: x[x > 0].min()),
+        "count": df.groupby(group).agg(lambda x: x[x > 0].count()),
     }
 
     if agr not in aggregates:
