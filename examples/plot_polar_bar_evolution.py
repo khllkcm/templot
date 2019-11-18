@@ -1,5 +1,5 @@
 """
-Plot Interactive Polar Bar Evolution Example.
+Plot Polar Bar Evolution Example.
 =============================================
 """
 import os
