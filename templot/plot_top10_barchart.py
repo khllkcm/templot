@@ -25,7 +25,7 @@ def plot_top10_barchart(
 ):
     """
     Plots a barchart of the top 10 values colored by group.
-    
+
     :param year: year to be plotted (int)
     :param df: dataset (pandas DataFrame)
     :param values: sorting variable name (string)
@@ -35,11 +35,11 @@ def plot_top10_barchart(
     :param title: title (string)
     :param label: label and unit of the values (string)
     :param ax: graph axes
-    
+
     Gif example of this graph:
-    
+
     .. raw:: html
-    
+
         <img src="example_top10.gif" height="620px" width="100%">
     """
 
