@@ -39,6 +39,54 @@ def plot_polar_bar_evolution(
         <img src="example_polarbar_animation.gif" height="620px" width="100%">
 
     """
+    if not isinstance(df, pd.core.frame.dfFrame):
+        raise TypeError(f"df must be a dfFrame not {type(df)}.")
+
+    if len(df.shape) != 2:
+        raise ValueError(f"df must be a matrix but shape is {df.shape}")
+
+    if df.shape[1] < 2:
+        raise ValueError(
+            f"df must be a matrix with at least two columns but shape is {df.shape}"
+        )
+
+    if var not in df.columns:
+        raise ValueError(f"{var} is not a valid column name.")
+
+    if df[var].dtype not in [
+        'int16',
+        'int32',
+        'int64',
+        'float16',
+        'float32',
+        'float64',
+    ]:
+        raise ValueError(f"{var} must contain numeric values.")
+
+    if year not in df.columns:
+        raise ValueError(f"{year} is not a valid column name.")
+
+    if group not in df.columns:
+        raise ValueError(f"{group} is not a valid column name.")
+
+    if group not in ["Regions", "Departements", "Communes"]:
+        raise ValueError(
+            f"{group} is not a valid name. Possible values are: Regions, Departements or Communes"
+        )
+
+    if not isinstance(x_grid, bool):
+        raise TypeError(f"x_grid must be an int, not {type(x_grid)}")
+
+    if not isinstance(y_grid, bool):
+        raise TypeError(f"x_grid must be an int, not {type(x_grid)}")
+
+    if not isinstance(y_ticks, bool):
+        raise TypeError(f"x_grid must be an int, not {type(x_grid)}")
+
+    if len(df[group].unique()) > 90:
+        warnings.warn(
+            f"Having too many groups may result in reduced performance."
+        )
 
     aggregates = {
         "average": df.groupby([group, year])[var].mean().reset_index(),
@@ -50,6 +98,11 @@ def plot_polar_bar_evolution(
         .astype("float")
         .reset_index(),
     }
+
+    if agr not in aggregates:
+        raise ValueError(
+            f"{agr} is not a valid aggregation method. Possible values are: {', '.join([k for k in aggregates])}"
+        )
 
     df_agr = aggregates[agr]
 

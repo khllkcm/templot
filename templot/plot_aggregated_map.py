@@ -95,7 +95,7 @@ def plot_aggregated_map(
 
     if aggregation_method not in aggregates:
         raise ValueError(
-            f"{group} is not a valid aggregation method. Possible values are: {', '.join([k for k in aggregates])}"
+            f"{aggregation_method} is not a valid aggregation method. Possible values are: {', '.join([k for k in aggregates])}"
         )
 
     map_data = aggregates[aggregation_method][variables]
