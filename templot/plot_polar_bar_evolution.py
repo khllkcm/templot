@@ -6,6 +6,8 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib import animation
 import numpy as np
+import pandas as pd
+import warnings
 
 
 def plot_polar_bar_evolution(
@@ -39,7 +41,7 @@ def plot_polar_bar_evolution(
         <img src="example_polarbar_animation.gif" height="620px" width="100%">
 
     """
-    if not isinstance(df, pd.core.frame.dfFrame):
+    if not isinstance(df, pd.core.frame.DataFrame):
         raise TypeError(f"df must be a dfFrame not {type(df)}.")
 
     if len(df.shape) != 2:
