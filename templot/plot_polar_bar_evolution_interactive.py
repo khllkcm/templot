@@ -3,6 +3,8 @@ Plot Interactive polar bar.
 """
 
 import plotly.express as px
+import pandas as pd
+import warnings
 
 
 def plot_polar_bar_evolution_interactive(
@@ -27,7 +29,7 @@ def plot_polar_bar_evolution_interactive(
 
     """
 
-    if not isinstance(df, pd.core.frame.dfFrame):
+    if not isinstance(df, pd.core.frame.DataFrame):
         raise TypeError(f"df must be a dfFrame not {type(df)}.")
 
     if len(df.shape) != 2:
