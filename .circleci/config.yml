@@ -68,5 +68,11 @@ jobs:
           path: dist/html/example_polarbar_animation.gif
           destination: dist/html/html/example_polarbar_animation.gif
       - store_artifacts:
+          path: dist/html/example_top10.gif
+          destination: dist/html/html/example_top10.gif
+      - store_artifacts:
+          path: dist/html/example_ipchar.html
+          destination: dist/html/html/example_ipchar.html
+      - store_artifacts:
           path: dist/html
           destination: dist/html 
