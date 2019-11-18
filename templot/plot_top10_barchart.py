@@ -41,7 +41,7 @@ def plot_top10_barchart(
 
     if not isinstance(year, int):
         raise TypeError(f"year must be an int, not {type(year)}")
-    
+
     if not isinstance(df, pd.core.frame.DataFrame):
         raise TypeError(f"data must be a DataFrame not {type(df)}.")
 
@@ -51,23 +51,30 @@ def plot_top10_barchart(
     for var in [values, year_var, color_var, names_var]:
         if var not in df.columns:
             raise ValueError(f"{var} is not a valid column name.")
-    
+
     if not isinstance(title, str):
         raise TypeError(f"title must be a string not {type(title)}.")
-        
+
     if not isinstance(label, str):
         raise TypeError(f"label must be a string not {type(label)}.")
 
     for var in [values, year_var]:
-        if df[var].dtype not in ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']:
+        if df[var].dtype not in [
+            'int16',
+            'int32',
+            'int64',
+            'float16',
+            'float32',
+            'float64',
+        ]:
             raise ValueError(f"{var} must contain numeric values")
 
-    if df[df[year_var] == year].shape[0]==0:
+    if df[df[year_var] == year].shape[0] == 0:
         raise ValueError("404 year not found in dataframe")
 
     if len(df[color_var].unique()) > 25:
         warnings.warn(f"Having too many groups will result in repeated colors")
-        
+
     dff = (
         df[df[year_var] == year]
         .sort_values(by=values, ascending=True)
