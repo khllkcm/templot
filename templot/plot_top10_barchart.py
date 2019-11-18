@@ -21,6 +21,23 @@ def plot_top10_barchart(
     ax=None,
     **kwargs,
 ):
+
+    """
+    Plots a barchart of the top 10 values colored by group.
+    :param year: year to be plotted
+    :param df: dataframe
+    :param values: sorting variable name
+    :param year_var: year variable name
+    :param color_var: group variable name
+    :param names_var: bar labels variable name
+    :param title: title
+    :param label: label and unit of the values
+    :param ax: graph axes
+    Gif example of this graph:
+    .. raw:: html
+        <img src="example_top10.gif" height="620px" width="100%">
+    """
+
     dff = (
         df[df[year_var] == year]
         .sort_values(by=values, ascending=True)
