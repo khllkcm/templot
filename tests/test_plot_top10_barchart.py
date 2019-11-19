@@ -12,8 +12,11 @@ import matplotlib.image as mpimg
 class TestPlotTop10(unittest.TestCase):
     "Tests for submodule plot_top10_barchart"
 
-    # Tests if plot_top10_barchart outputs the same graph as intended by the developers
-    # If the function is modified, this test will be invalid unless test.img is regenerated
+    """
+    Tests if plot_top10_barchart outputs the same graph as intended by the developers.
+    If the function is modified, this test will be invalid unless test.img is regenerated
+    or output.png renamed to be the new test.png
+    """
 
     def test_image_correct(self):
         filepath = os.path.join('.', 'templot', 'data', 'df.csv')
