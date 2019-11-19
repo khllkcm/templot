@@ -16,5 +16,5 @@ setup(name='templot',
       author_email='khail@kacem.xyz',
       url='https://github.com/khllkcm/templot',
       packages=find_packages(),
-      requires=requirements,
+      install_requires=requirements,
       include_package_data=True)
