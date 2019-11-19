@@ -6,6 +6,14 @@ templot
 
 Python package for visualizing evolution over time across geographical locations.
 
+Installing
+============
+
+::
+
+    pip install templot
+
+
 Contributing
 =============
 
