@@ -1,7 +1,3 @@
-
-.. image:: https://circleci.com/gh/khllkcm/templot/tree/master.svg?style=svg&circle-token=f6eb14760d058d82687c8c09cab77e407b2a67a5
-    :target: https://circleci.com/gh/khllkcm/templot/tree/master
-    
 templot
 =============
 
@@ -13,6 +9,7 @@ Python package for visualizing evolution over time across geographical locations
 Contributing
 =============
 
+Install the dependencies in ``requirements.txt`` and ``requirements-dev.txt``.
 
 Generate the setup in subfolder ``dist``:
 
