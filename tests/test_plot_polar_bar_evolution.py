@@ -9,7 +9,7 @@ import pandas as pd
 
 class TestPlotPolarBarEvolution(unittest.TestCase):
     "Tests for submodule plot_polar_bar_evolution"
-    filepath = os.path.join('.', 'df_test.csv')
+    filepath = os.path.join('tests', 'df_test.csv')
 
     if not os.path.exists(filepath):
         download_irep(filepath)

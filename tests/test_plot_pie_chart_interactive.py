@@ -9,7 +9,7 @@ import pandas as pd
 
 class TestPlotPieChart(unittest.TestCase):
     "Tests for plot_pie_chart_interactive"
-    filepath = os.path.join('.', 'df_test.csv')
+    filepath = os.path.join('tests', 'df_test.csv')
 
     if not os.path.exists(filepath):
         download_irep(filepath)
