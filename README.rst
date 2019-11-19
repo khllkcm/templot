@@ -9,6 +9,7 @@ Python package for visualizing evolution over time across geographical locations
 Contributing
 =============
 
+Install the dependencies in ``requirements.txt` and ``requirements-dev.txt``.
 
 Generate the setup in subfolder ``dist``:
 
