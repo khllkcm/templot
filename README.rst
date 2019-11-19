@@ -38,4 +38,4 @@ To check style:
 ::
 
     python -m flake8 templot tests examples --ignore=E501,W503
-```
+
