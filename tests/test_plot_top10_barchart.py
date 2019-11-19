@@ -19,7 +19,7 @@ class TestPlotTop10(unittest.TestCase):
     """
 
     def test_image_correct(self):
-        filepath = os.path.join('.', 'templot', 'data', 'df.csv')
+        filepath = os.path.join('tests', 'df_test.csv')
         if not os.path.exists(filepath):
             download_irep(filepath)
             df = pd.read_csv(filepath)
@@ -28,11 +28,18 @@ class TestPlotTop10(unittest.TestCase):
         df = pd.read_csv(filepath)
         df = pd.melt(
             df,
-            id_vars=[
-                'Identifiant', 'Nom_Etablissement_x', 'LLX', 'LLY', 'Regions'
+            id_vars=df.columns & [
+                'Identifiant',
+                'Nom_Etablissement_x',
+                'LLX',
+                'LLY',
+                'Regions',
+                'Departements',
+                'Communes'
             ],
             var_name='Annee',
-            value_name='Quantite')
+            value_name='Quantite',
+        )
         df = df[df.Quantite != 0]
         df['Annee'] = df['Annee'].apply(lambda x: int(x[-4:]))
         fig, ax = plt.subplots(figsize=(16, 9), dpi=220, facecolor='#F8F7F7')
@@ -43,9 +50,9 @@ class TestPlotTop10(unittest.TestCase):
             year_var="Annee",
             color_var="Regions",
             names_var='Nom_Etablissement_x',
-            title=
-            'Les établissement émettant le plus de déchets dangereux en 2017',
-            label='Déchets dangereux (t/an)')
+            title='Les établissement émettant le plus de déchets dangereux en 2017',
+            label='Déchets dangereux (t/an)',
+        )
         plt.savefig(os.path.join('tests', 'output.png'))
         output = mpimg.imread(os.path.join('tests', 'output.png'))
         testimg = mpimg.imread(os.path.join('tests', 'test.png'))
