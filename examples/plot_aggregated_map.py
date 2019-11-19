@@ -12,11 +12,9 @@ if not os.path.exists(filepath):
     if not os.path.exists(os.path.join('..', 'templot', 'data')):
         os.makedirs(os.path.join('..', 'templot', 'data'))
     download_irep(filepath)
-    df = pd.read_csv(filepath)
-    df = add_regions(df, "LLX", "LLY")
-    df.to_csv(filepath, index=False)
 
 df = pd.read_csv(filepath)
+df = add_regions(df, "LLX", "LLY")
 
 my_map = plot_aggregated_map(
     data=df,

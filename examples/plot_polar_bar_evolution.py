@@ -11,11 +11,9 @@ filepath = os.path.join('..', 'templot', 'data', 'df.csv')
 
 if not os.path.exists(filepath):
     download_irep(filepath)
-    df = pd.read_csv(filepath)
-    df = add_regions(df, "LLX", "LLY")
-    df.to_csv(filepath, index=False)
 
 df = pd.read_csv(filepath)
+df = add_regions(df, "LLX", "LLY")
 
 
 df = pd.melt(
