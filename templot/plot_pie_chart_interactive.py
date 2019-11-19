@@ -85,7 +85,7 @@ def plot_pie_chart_interactive(df, col, year, year1, sticker):
     d1 = {key: 0 for key in test}
     d = {key: 0 for key in test}
     label, label1 = col + str(year), col + str(year1)
-    for i in range(df.shape[0]):
+    for i in df.index:
         d[df.loc[i, sticker]] += df.loc[i, label]
         d1[df.loc[i, sticker]] += df.loc[i, label1]
     labels = list(d.keys())
