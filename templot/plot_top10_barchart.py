@@ -141,7 +141,7 @@ def plot_top10_barchart(
     ax.grid(which='major', axis='x', linestyle='-')
     ax.set_axisbelow(True)
     ax.text(
-        0, 1.1, title, transform=ax.transAxes, size=24, weight=600, ha='left'
+        0, 1.1, title, transform=ax.transAxes, size=22, weight=600, ha='left'
     )
     plt.box(False)
     color_var_uniq = list(dict.fromkeys(dff[color_var][::-1]))
