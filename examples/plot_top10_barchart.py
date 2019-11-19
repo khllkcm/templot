@@ -43,7 +43,7 @@ ani = animation.FuncAnimation(
         "Annee",
         "Regions",
         'Nom_Etablissement_x',
-        'Les établissement émettant le plus de déchets dangereux de 2003 à 2017',
+        'Les établissements émettant le plus de déchets dangereux de 2003 à 2017',
         'Déchets dangereux (t/an)',
     ],
 )
