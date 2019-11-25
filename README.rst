@@ -1,3 +1,7 @@
+.. image:: https://circleci.com/gh/khllkcm/templot/tree/master.svg?style=svg
+    :target: https://circleci.com/gh/khllkcm/templot/tree/master
+
+
 templot
 =============
 
